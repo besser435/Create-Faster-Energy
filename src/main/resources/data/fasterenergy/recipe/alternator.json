@@ -1,0 +1,22 @@
+{
+  "type": "create:mechanical_crafting",
+  "category": "misc",
+  "accept_mirrored": true,
+  "pattern": [
+    " A ",
+    "BSB",
+    "CTC",
+    "BSB"
+  ],
+  "key": {
+    "A": { "item": "create:andesite_alloy" },
+    "B": { "tag": "c:plates/brass" },
+    "S": { "item": "create:sturdy_sheet" },
+    "C": { "tag": "c:plates/copper" },
+    "T": { "item": "create:electron_tube" }
+  },
+  "result": {
+    "count": 1,
+    "id": "fasterenergy:alternator"
+  }
+}

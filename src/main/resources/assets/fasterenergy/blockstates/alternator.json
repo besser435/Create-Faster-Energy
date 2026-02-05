@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "fasterenergy:block/alternator",
+      "x": 270, "y": 90
+    },
+    "facing=up": {
+      "model": "fasterenergy:block/alternator",
+      "x": 90, "y": 90
+    },
+    "facing=north": {
+      "model": "fasterenergy:block/alternator",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "fasterenergy:block/alternator",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "fasterenergy:block/alternator",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "fasterenergy:block/alternator",
+      "y": 270
+    }
+  }
+}
