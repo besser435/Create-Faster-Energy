@@ -35,7 +35,9 @@ public class AlternatorBlock extends DirectionalKineticBlock implements IBE<Alte
     }
 
     @Override
-    public Class<AlternatorBlockEntity> getBlockEntityClass() { return AlternatorBlockEntity.class; }
+    public Class<AlternatorBlockEntity> getBlockEntityClass() {
+        return AlternatorBlockEntity.class;
+    }
 
     @Override
     public BlockEntityType<? extends AlternatorBlockEntity> getBlockEntityType() {

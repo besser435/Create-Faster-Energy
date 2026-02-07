@@ -1,22 +1,20 @@
 package me.besser.createfasterenergy;
 
+import com.mojang.logging.LogUtils;
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import me.besser.createfasterenergy.blocks.FEBlockEntities;
 import me.besser.createfasterenergy.blocks.FEBlocks;
 import me.besser.createfasterenergy.items.FEItems;
-import org.slf4j.Logger;
-import com.mojang.logging.LogUtils;
-
 import me.besser.createfasterenergy.util.FEConfig;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-
-import com.simibubi.create.foundation.data.CreateRegistrate;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import org.slf4j.Logger;
 
 @EventBusSubscriber
 @Mod(CreateFasterEnergy.MODID)

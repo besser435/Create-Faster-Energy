@@ -162,7 +162,7 @@ public class AlternatorBlockEntity extends KineticBlockEntity implements IHaveGo
 
     private ChatFormatting getEfficiencyColor(int percent) {
         if (percent > 85) return ChatFormatting.GREEN;
-        if (percent > 60) return ChatFormatting.YELLOW;
+        if (percent >= 70) return ChatFormatting.YELLOW;
         return ChatFormatting.RED;
     }
 
