@@ -96,6 +96,10 @@ A simple Create add-on that lets you make Forge Energy (FE) from Create Stress u
     ordering="NONE"
     side="BOTH"
 
+
+[[mixins]]
+    config = "createfasterenergy.mixins.json"
+
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
