@@ -38,8 +38,6 @@ public class CreateFasterEnergy {
 
         FEItems.ITEMS.register(modEventBus);
 
-        ContraptionLimiter.init();
-
         LOGGER.info("Create: Faster Energy started!");
     }
 
