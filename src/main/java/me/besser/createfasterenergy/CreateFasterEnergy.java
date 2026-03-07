@@ -5,7 +5,6 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import me.besser.createfasterenergy.blocks.FEBlockEntities;
 import me.besser.createfasterenergy.blocks.FEBlocks;
 import me.besser.createfasterenergy.items.FEItems;
-import me.besser.createfasterenergy.util.ContraptionLimiter;
 import me.besser.createfasterenergy.util.FEConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
