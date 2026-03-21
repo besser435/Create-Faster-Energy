@@ -1,4 +1,4 @@
-package me.besser.createfasterenergy.blocks.alternator;
+package me.besser.createfasterenergy.block.alternator;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;

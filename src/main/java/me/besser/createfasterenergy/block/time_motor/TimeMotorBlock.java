@@ -1,9 +1,9 @@
-package me.besser.createfasterenergy.blocks.time_motor;
+package me.besser.createfasterenergy.block.time_motor;
 
 import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-import me.besser.createfasterenergy.blocks.FEBlockEntities;
-import me.besser.createfasterenergy.items.TimeInBottleItem;
+import me.besser.createfasterenergy.block.FEBlockEntities;
+import me.besser.createfasterenergy.item.TimeInBottleItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;

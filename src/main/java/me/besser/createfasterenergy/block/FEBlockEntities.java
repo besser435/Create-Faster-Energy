@@ -1,12 +1,12 @@
-package me.besser.createfasterenergy.blocks;
+package me.besser.createfasterenergy.block;
 
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.OrientedRotatingVisual;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import me.besser.createfasterenergy.CreateFasterEnergy;
-import me.besser.createfasterenergy.blocks.alternator.AlternatorBlockEntity;
-import me.besser.createfasterenergy.blocks.alternator.AlternatorRenderer;
-import me.besser.createfasterenergy.blocks.time_motor.TimeMotorBlockEntity;
+import me.besser.createfasterenergy.block.alternator.AlternatorBlockEntity;
+import me.besser.createfasterenergy.block.alternator.AlternatorRenderer;
+import me.besser.createfasterenergy.block.time_motor.TimeMotorBlockEntity;
 
 public class FEBlockEntities {
     public static final BlockEntityEntry<AlternatorBlockEntity> ALTERNATOR = CreateFasterEnergy.REGISTRATE

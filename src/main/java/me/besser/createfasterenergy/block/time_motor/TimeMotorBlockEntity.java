@@ -1,8 +1,8 @@
-package me.besser.createfasterenergy.blocks.time_motor;
+package me.besser.createfasterenergy.block.time_motor;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.GeneratingKineticBlockEntity;
-import me.besser.createfasterenergy.items.TimeInBottleItem;
+import me.besser.createfasterenergy.item.TimeInBottleItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

@@ -1,11 +1,11 @@
-package me.besser.createfasterenergy.blocks;
+package me.besser.createfasterenergy.block;
 
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import me.besser.createfasterenergy.CreateFasterEnergy;
-import me.besser.createfasterenergy.blocks.alternator.AlternatorBlock;
-import me.besser.createfasterenergy.blocks.time_motor.TimeMotorBlock;
+import me.besser.createfasterenergy.block.alternator.AlternatorBlock;
+import me.besser.createfasterenergy.block.time_motor.TimeMotorBlock;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;

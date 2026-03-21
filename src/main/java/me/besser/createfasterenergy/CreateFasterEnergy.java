@@ -2,9 +2,9 @@ package me.besser.createfasterenergy;
 
 import com.mojang.logging.LogUtils;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import me.besser.createfasterenergy.blocks.FEBlockEntities;
-import me.besser.createfasterenergy.blocks.FEBlocks;
-import me.besser.createfasterenergy.items.FEItems;
+import me.besser.createfasterenergy.block.FEBlockEntities;
+import me.besser.createfasterenergy.block.FEBlocks;
+import me.besser.createfasterenergy.item.FEItems;
 import me.besser.createfasterenergy.util.FEConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;

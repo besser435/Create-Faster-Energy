@@ -1,4 +1,4 @@
-package me.besser.createfasterenergy.items;
+package me.besser.createfasterenergy.item;
 
 import me.besser.createfasterenergy.CreateFasterEnergy;
 import net.minecraft.world.item.Item;

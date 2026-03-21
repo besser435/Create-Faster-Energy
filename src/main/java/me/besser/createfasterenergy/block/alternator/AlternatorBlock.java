@@ -1,8 +1,8 @@
-package me.besser.createfasterenergy.blocks.alternator;
+package me.besser.createfasterenergy.block.alternator;
 
 import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
-import me.besser.createfasterenergy.blocks.FEBlockEntities;
+import me.besser.createfasterenergy.block.FEBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

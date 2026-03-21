@@ -2,7 +2,7 @@ package me.besser.createfasterenergy.ponder;
 
 import com.simibubi.create.infrastructure.ponder.AllCreatePonderTags;
 import me.besser.createfasterenergy.CreateFasterEnergy;
-import me.besser.createfasterenergy.blocks.FEBlocks;
+import me.besser.createfasterenergy.block.FEBlocks;
 import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.foundation.PonderIndex;

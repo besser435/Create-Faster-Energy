@@ -1,4 +1,4 @@
-package me.besser.createfasterenergy.items;
+package me.besser.createfasterenergy.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;

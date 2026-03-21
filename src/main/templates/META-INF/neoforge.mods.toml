@@ -39,7 +39,7 @@ displayURL="https://github.com/besser435/Create-Faster-Energy" #optional
 #logoFile="examplemod.png" #optional
 
 # A text field displayed in the mod UI
-#credits="" #optional
+credits="debuggyo" #optional
 
 # The authors of the mod, displayed in the mod UI (optional)
 authors="besser"
