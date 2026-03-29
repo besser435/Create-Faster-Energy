@@ -46,6 +46,10 @@ public class PonderScenes {
         scene.idle(2);
 
 
+        // TODO: have better lang stuff. Text is repeated here and in the lang file.
+        // When its not in the lang file and its just here, it just shows the translation key in game for some reason.
+
+
         // Explain alternator purpose
         scene.idle(20);
         scene.effects().rotationDirectionIndicator(alternatorPos);
@@ -77,10 +81,9 @@ public class PonderScenes {
 
 
         // Explain minimum RPM
-        String minRpm = String.valueOf(FEConfig.COMMON.minRpm.get().intValue());
         scene.addKeyframe();
         scene.overlay().showText(90)
-                .text("Its input speed must be at least " + minRpm + " RPM for it to start generating FE.")
+                .text("Its input speed must meet the minimum RPM for it to start generating FE.")
                 .placeNearTarget()
                 .pointAt(util.vector().topOf(speedometerPos));
         scene.effects().rotationSpeedIndicator(speedometerPos);

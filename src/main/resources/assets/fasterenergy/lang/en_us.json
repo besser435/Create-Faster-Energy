@@ -1,3 +1,9 @@
 {
-  "block.fasterenergy.alternator": "Alternator"
+  "block.fasterenergy.alternator": "Alternator",
+
+  "fasterenergy.ponder.alternator.header": "Generating FE from Rotational Force",
+  "fasterenergy.ponder.alternator.text_1": "The Alternator converts rotational force into FE.",
+  "fasterenergy.ponder.alternator.text_2": "It will give FE to any blocks placed next to it.",
+  "fasterenergy.ponder.alternator.text_3": "Its input speed must meet the minimum RPM for it to start generating FE.",
+  "fasterenergy.ponder.alternator.text_4": "It becomes less efficient when the input RPM is fast, but generates more FE."
 }
