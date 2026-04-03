@@ -1,11 +1,9 @@
 package me.besser.createfasterenergy.block.alternator;
 
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import net.createmod.catnip.render.CachedBuffers;
-import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class AlternatorRenderer extends KineticBlockEntityRenderer<AlternatorBlockEntity> {
     public AlternatorRenderer(BlockEntityRendererProvider.Context context) {
@@ -13,7 +11,12 @@ public class AlternatorRenderer extends KineticBlockEntityRenderer<AlternatorBlo
     }
 
     @Override
-    protected SuperByteBuffer getRotatedModel(AlternatorBlockEntity be, BlockState state) {
-        return CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, state);
+    public boolean shouldRenderOffScreen(@NotNull AlternatorBlockEntity be) {
+        return true;
+    }
+
+    @Override
+    protected BlockState getRenderedBlockState(AlternatorBlockEntity be) {
+        return shaft(getRotationAxisOf(be));
     }
 }
