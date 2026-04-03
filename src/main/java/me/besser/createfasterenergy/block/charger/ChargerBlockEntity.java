@@ -1,17 +1,15 @@
 package me.besser.createfasterenergy.block.charger;
 
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
 import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour.ProcessingResult;
 import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
 import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
 import com.simibubi.create.content.logistics.depot.DepotBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import me.besser.createfasterenergy.block.AbstractEnergyMakingKineticBE;
 import me.besser.createfasterenergy.util.FEConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -22,21 +20,21 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.util.List;
 
-public class ChargerBlockEntity extends KineticBlockEntity {
+public class ChargerBlockEntity extends AbstractEnergyMakingKineticBE {
 
     // Config
-    private float baseStressImpact;
+    //private float baseStressImpact;
     private float minRpm;
-    private float maxRpm;
+    //private float maxRpm;
     private float fePerRpm;
 
-    private float optimalRpm;
-    private float maxEfficiency;
-    private float minEfficiency;
+    //private float optimalRpm;
+    //private float maxEfficiency;
+    //private float minEfficiency;
 
     // State
-    private float currentEfficiency = 1.0f;
-    private int feGeneratedThisTick = 0;
+    //private float currentEfficiency = 1.0f;
+    //private int feGeneratedThisTick = 0;
 
     public ChargerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -111,22 +109,10 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         return ProcessingResult.PASS;
     }
 
-
-    // Stress and energy calculations
-    private float calculateEfficiency(float speed) {
-        if (speed <= optimalRpm) return maxEfficiency;
-
-        float excessSpeed = Math.min(speed, maxRpm) - optimalRpm;
-        float excessRange = maxRpm - optimalRpm;
-        float falloff = excessSpeed / excessRange;
-
-        return maxEfficiency - (falloff * (maxEfficiency - minEfficiency));
-    }
-
-    @Override
-    public float calculateStressApplied() {
-        return baseStressImpact;
-    }
+//    @Override
+//    public float calculateStressApplied() {
+//        return baseStressImpact;
+//    }
 
     @Override
     public boolean isSpeedRequirementFulfilled() {
@@ -138,7 +124,6 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         super.onLoad();
         updateConfigValues();
     }
-
 
     // Goggle info and client syncing
     @Override
@@ -214,17 +199,17 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         this.minEfficiency = FEConfig.COMMON.minEfficiency.get().floatValue();
     }
 
-    @Override
-    protected void write(CompoundTag tag, HolderLookup.Provider provider, boolean clientPacket) {
-        tag.putFloat("Efficiency", currentEfficiency);
-        tag.putInt("GenRate", feGeneratedThisTick);
-        super.write(tag, provider, clientPacket);
-    }
-
-    @Override
-    protected void read(CompoundTag tag, HolderLookup.Provider provider, boolean clientPacket) {
-        super.read(tag, provider, clientPacket);
-        currentEfficiency = tag.getFloat("Efficiency");
-        feGeneratedThisTick = tag.getInt("GenRate");
-    }
+//    @Override
+//    protected void write(CompoundTag tag, HolderLookup.Provider provider, boolean clientPacket) {
+//        tag.putFloat("Efficiency", currentEfficiency);
+//        tag.putInt("GenRate", feGeneratedThisTick);
+//        super.write(tag, provider, clientPacket);
+//    }
+//
+//    @Override
+//    protected void read(CompoundTag tag, HolderLookup.Provider provider, boolean clientPacket) {
+//        super.read(tag, provider, clientPacket);
+//        currentEfficiency = tag.getFloat("Efficiency");
+//        feGeneratedThisTick = tag.getInt("GenRate");
+//    }
 }
