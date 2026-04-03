@@ -149,19 +149,21 @@ public class AlternatorBlockEntity extends KineticBlockEntity implements IHaveGo
                 .append(Component.literal(FeGeneratedThisTick + " FE/t").withStyle(ChatFormatting.AQUA)));
 
         // Usage
-        tooltip.add(Component.literal("    Current Usage: ").withStyle(ChatFormatting.GRAY)
+        tooltip.add(Component.literal("    Usage: ").withStyle(ChatFormatting.GRAY)
                 .append(Component.literal(FePushedThisTick + " FE/t").withStyle(ChatFormatting.GOLD)));
 
         // Efficiency
         int effPercent = Math.round(currentEfficiency * 100);
         tooltip.add(Component.literal("    Efficiency: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(effPercent + "%").withStyle(getEfficiencyColor(effPercent))));
+                .append(Component.literal(effPercent + "%").withStyle(getPercentColor(effPercent))));
 
         return true;
     }
 
-    private ChatFormatting getEfficiencyColor(int percent) {
-        if (percent > 85) return ChatFormatting.GREEN;
+
+    // Make a helper?
+    private ChatFormatting getPercentColor(int percent) {
+        if (percent >= 85) return ChatFormatting.GREEN;
         if (percent >= 70) return ChatFormatting.YELLOW;
         return ChatFormatting.RED;
     }

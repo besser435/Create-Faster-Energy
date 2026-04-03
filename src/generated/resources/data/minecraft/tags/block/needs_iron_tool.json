@@ -1,6 +1,7 @@
 {
   "values": [
     "fasterenergy:alternator",
+    "fasterenergy:charger",
     "fasterenergy:time_motor"
   ]
 }

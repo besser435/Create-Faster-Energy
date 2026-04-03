@@ -1,5 +1,6 @@
 {
   "block.fasterenergy.alternator": "Alternator",
+  "block.fasterenergy.charger": "Charger",
 
   "fasterenergy.ponder.alternator.header": "Generating FE from Rotational Force",
   "fasterenergy.ponder.alternator.text_1": "The Alternator converts rotational force into FE.",
