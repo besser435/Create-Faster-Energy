@@ -1,7 +1,12 @@
 package me.besser.createfasterenergy.block.charger;
 
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
+import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour.ProcessingResult;
+import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
+import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
 import com.simibubi.create.content.logistics.depot.DepotBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import me.besser.createfasterenergy.util.FEConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -37,22 +42,19 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         super(type, pos, state);
     }
 
+    @Override
+    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+        super.addBehaviours(behaviours);
 
-    // WE do the depot check manually. we should probably use the Create preferred way, like this example from Create Crafts and Additions.
-//    @Override
-//    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-//        super.addBehaviours(behaviours);
-//        processingBehaviour =
-//                new BeltProcessingBehaviour(this).whenItemEnters((s, i) -> TeslaCoilBeltCallbacks.onItemReceived(s, i, this))
-//                        .whileItemHeld((s, i) -> TeslaCoilBeltCallbacks.whenItemHeld(s, i, this));
-//        behaviours.add(processingBehaviour);
-//    }
+        // Process on belts, depots, and weighted ejectors
+        behaviours.add(new BeltProcessingBehaviour(this)
+                .whenItemEnters(this::onItemReceived)
+                .whileItemHeld(this::whenItemHeld));
+    }
 
     @Override
     public void tick() {
         super.tick();
-
-        // TODO: see how many times things are called each tick. with debug statements.
 
         if (level == null || level.isClientSide) return;
 
@@ -62,12 +64,7 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         if (canOperate) {
             currentEfficiency = calculateEfficiency(speed);
             feGeneratedThisTick = Math.round((speed * fePerRpm) * currentEfficiency);
-
-            if (feGeneratedThisTick > 0) {
-                chargeNearbyDepots();
-            }
         } else {
-            // Reset state when not operating
             currentEfficiency = 0f;
             feGeneratedThisTick = 0;
         }
@@ -78,6 +75,44 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         }
     }
 
+    // Pass item unless it can be charged
+    private ProcessingResult onItemReceived(TransportedItemStack transported, TransportedItemStackHandlerBehaviour handler) {
+        if (feGeneratedThisTick <= 0) return ProcessingResult.PASS;
+
+        IEnergyStorage energy = transported.stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null || !energy.canReceive()) return ProcessingResult.PASS;
+
+        if (energy.getEnergyStored() >= energy.getMaxEnergyStored()) {
+            return ProcessingResult.PASS;
+        }
+
+        return ProcessingResult.HOLD;
+    }
+
+    // Hold and charge item
+    private ProcessingResult whenItemHeld(TransportedItemStack transported, TransportedItemStackHandlerBehaviour handler) {
+        if (feGeneratedThisTick <= 0) return ProcessingResult.PASS; // Lost power while holding, let it go
+
+        IEnergyStorage energy = transported.stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        if (energy == null || !energy.canReceive()) return ProcessingResult.PASS;
+
+        int accepted = energy.receiveEnergy(feGeneratedThisTick, false);
+
+        if (accepted > 0) {
+            if (level.getGameTime() % 10 == 0) {    // Send periodic updates to clients while charging so they see the progress
+                handler.blockEntity.notifyUpdate();
+            }
+
+            return ProcessingResult.HOLD;
+        }
+
+        // Accepted == 0 means the item is completely full, and needs a final client update to show 100%
+        handler.blockEntity.notifyUpdate();
+        return ProcessingResult.PASS;
+    }
+
+
+    // Stress and energy calculations
     private float calculateEfficiency(float speed) {
         if (speed <= optimalRpm) return maxEfficiency;
 
@@ -86,29 +121,6 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         float falloff = excessSpeed / excessRange;
 
         return maxEfficiency - (falloff * (maxEfficiency - minEfficiency));
-    }
-
-    private void chargeNearbyDepots() {
-        DepotBlockEntity depot = getTargetDepot();
-        if (depot == null) return;
-
-        ItemStack stack = depot.getHeldItem();
-        if (stack.isEmpty()) return;
-
-        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
-        if (energy == null || !energy.canReceive()) return;
-
-
-        int accepted = energy.receiveEnergy(feGeneratedThisTick, false);
-
-        if (accepted > 0) {
-            depot.setChanged();
-
-            // TODO BUG: this will prevent clients from seeing 100% charge when an item is done.
-            if (level.getGameTime() % 10 == 0) { // Only update clients every so often
-                depot.notifyUpdate();
-            }
-        }
     }
 
     @Override
@@ -127,6 +139,8 @@ public class ChargerBlockEntity extends KineticBlockEntity {
         updateConfigValues();
     }
 
+
+    // Goggle info and client syncing
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         super.addToGoggleTooltip(tooltip, isPlayerSneaking);
@@ -137,7 +151,6 @@ public class ChargerBlockEntity extends KineticBlockEntity {
                 ? Component.literal("Charging").withStyle(ChatFormatting.GREEN)
                 : Component.literal("Idle").withStyle(ChatFormatting.RED);
 
-        // General info
         tooltip.add(Component.literal("    Status: ").withStyle(ChatFormatting.GRAY).append(status));
 
         if (!active) return true;
@@ -150,48 +163,46 @@ public class ChargerBlockEntity extends KineticBlockEntity {
                 .append(Component.literal(effPercent + "%").withStyle(getPercentColor(effPercent))));
 
 
-        // Item info
-        DepotBlockEntity depot = getTargetDepot();
+        // We keep this purely for static Depots so players can see the exact item charge in the goggles.
+        // TODO: either get rid of this or make it work for all types. its kind of janky only having it for depots.
+        DepotBlockEntity depot = getTargetDepotForTooltip();
+        if (depot == null) return false;
 
-        if (depot != null) {
-            ItemStack stack = depot.getHeldItem();
-            if (!stack.isEmpty()) {
-                IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        ItemStack stack = depot.getHeldItem();
+        if (stack.isEmpty()) return false;
 
-                if (energy != null) {
-                    int stored = energy.getEnergyStored();
-                    int max = energy.getMaxEnergyStored();
+        IEnergyStorage energy = stack.getCapability(Capabilities.EnergyStorage.ITEM);
 
-                    if (max > 0) {
-                        int percent = (int) ((stored / (float) max) * 100);
-                        tooltip.add(Component.literal("    Item Charge: ")
-                                .withStyle(ChatFormatting.GRAY)
-                                .append(Component.literal(percent + "%")
-                                        .withStyle(getPercentColor(percent))));
-                    }
-                }
+        if (energy != null) {
+            int stored = energy.getEnergyStored();
+            int max = energy.getMaxEnergyStored();
+
+            if (max > 0) {
+                int percent = (int) ((stored / (float) max) * 100);
+                tooltip.add(Component.literal("    Item Charge: ")
+                        .withStyle(ChatFormatting.GRAY)
+                        .append(Component.literal(percent + "%")
+                                .withStyle(getPercentColor(percent))));
             }
         }
 
         return true;
     }
 
-    private DepotBlockEntity getTargetDepot() {
+    private DepotBlockEntity getTargetDepotForTooltip() {
         if (level == null) return null;
-
         BlockEntity be = level.getBlockEntity(worldPosition.below(2));
-
         return (be instanceof DepotBlockEntity depot) ? depot : null;
     }
 
-    // Make a helper?
+    // TODO: Make a helper class?
     private ChatFormatting getPercentColor(int percent) {
         if (percent >= 85) return ChatFormatting.GREEN;
         if (percent >= 70) return ChatFormatting.YELLOW;
         return ChatFormatting.RED;
     }
 
-    // TODO: make own config values. maybe share most of them like the min and max RPM, but have FE/t for the charger.
+    // TODO: Redo config and make discrete sections for alternator and charger
     private void updateConfigValues() {
         this.baseStressImpact = FEConfig.COMMON.baseStressImpact.get().floatValue();
         this.minRpm = FEConfig.COMMON.minRpm.get().floatValue();
